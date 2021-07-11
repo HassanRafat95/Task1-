@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+        <record id="request_template_mail" model="mail.template">
+            <field name="name">request template mail</field>
+            <field name="email_from" >${user.email}</field>
+            <field name="subject">Request Name : ${object.RequestName} </field>
+            <field name="model_id" ref="purchase_request.model_purchase_request"/>
+            <field name="body_html" type="html">
+            <div >
+    <p >
+        Dear sir
+        <br/><br/>
+         Purchase Request ${object.RequestName} has been approved
+        <br/><br/>
+        Best regards,
+    </p>
+</div>
+            </field>
+        </record>
+    </data>
+</odoo>

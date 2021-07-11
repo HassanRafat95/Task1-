@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+           <record id="purchase_wizard_reject_form_view" model="ir.ui.view">
+            <field name="name">Reject Confirmation</field>
+            <field name="model">wizard.reject</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <separator string="Reject Confirmation" />
+                        <group>
+                               <field name="rejection_reason" />
+                        </group>
+                        <footer>
+                            <button string="confirm" name="confirm" type="object" class="oe_highlight" />
+                            <button string="Cancel" class="oe_link" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+     <record id="wizard_reject_action" model="ir.actions.act_window" >
+            <field name="name">wizard reject action</field>
+            <field name="res_model">wizard.reject</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+     </record>
+</odoo>

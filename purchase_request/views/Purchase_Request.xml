@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+        <record id="purchase_request_form_view" model="ir.ui.view">
+            <field name="name">purchase request form</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <form>
+                      <header>
+                          <button name="Submit_for_Approval" type="object" string="Submit for Approval" attrs="{'invisible':[('status', '!=' ,'draft')]}"/>
+                          <button name="Cancel" type="object" string="Cancel" attrs="{'invisible':[('status', '!=' ,'draft')]}" />
+                          <button name="Approve" type="object" string="Approve" attrs="{'invisible':[('status', '!=' ,'to be approved')]}" />
+                          <button name="%(purchase_request.wizard_reject_action)d" type="action" string="Reject" attrs="{'invisible':[('status', '!=' ,'to be approved')]}" />
+                          <button name="Reset_to_draft" type="object" string="Reset to draft" attrs="{'invisible':[('status', '!=' ,'cancel')]}" />
+                          <field name="status"  widget="statusbar" clickable="False"/>
+                      </header>
+                    <sheet>
+                        <group>
+                            <group >
+                               <field name="RequestName" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
+                               <field name="RequestedBy" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
+                               <field name="RejectionReason"  attrs="{'invisible':[('status', '!=' ,'reject')]}" />
+                            </group>
+                            <group >
+                                <field name="StartDate" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
+                                <field name="EndDate"  attrs="{'readonly':[('status','not in',['draft','to be approved'])]}"/>
+                                <field name="TotalPrice"  attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" force_save="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="orderlines" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+   <record id="purchase_request_tree_view" model="ir.ui.view">
+            <field name="name">purchase request tree</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                            <field name="RequestName" />
+                            <field name="RequestedBy" />
+                            <field name="StartDate" />
+                            <field name="EndDate" />
+                </tree>
+            </field>
+        </record>
+
+
+
+
+        <record id="Purchase_Request_action" model="ir.actions.act_window">
+            <field name="name">Purchase Request</field>
+            <field name="res_model">purchase.request</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_procurement_management_Request" name="Purchase Request"  parent="purchase.menu_procurement_management" action="Purchase_Request_action"/>
+
+    </data>
+</odoo>
