@@ -42,26 +42,11 @@ class PurchaseRequest(models.Model):
             record.status = "approve"
             tempelate_id = self.env.ref('purchase_request.request_template_mail');
             if tempelate_id:
-                tempelate_id.send_mail(self.id, force_send=True, raise_exception=True,
-                          email_values={'email_to': 'hraafat@zadsolutions.com'})
-
+                group_user = self.env.ref('purchase.group_purchase_manager').users
+                for user_d in group_user:
+                    tempelate_id.send_mail(self.id, force_send=True, raise_exception=True,
+                                       email_values={'email_to': user_d.email})
         return True
-    ## try to get users that in purchase manger
-       #     users_ids = []
-        #    sql_query = """select * from res_users """
-         #   self.env.cr.execute(sql_query)
-          #  results = self.env.cr.fetchall()
-           # for users_id in results:
-            #    print(users_id)
-             #   users_ids.append(users_id[0])
-        #    sql_query = """select * from res_groups """
-         #   self.env.cr.execute(sql_query)
-          #  results = self.env.cr.fetchall()
-           # print("------------------------------")
-            #print(results)
-            #flag = self.env['res.users']
-            #for u in flag:
-             #   print(u.uid)
 
     def Reset_to_draft(self):
         for record in self:

@@ -13,14 +13,12 @@ class Purchase_Request_Line(models.Model):
     @api.depends("Quantity","cost_price")
     def _compute_total(self):
         for request_line in self:
-            request_line.Total = request_line.Quantity * request_line.cost_price;
+            request_line.Total = request_line.Quantity * request_line.cost_price
 
     @api.onchange("Quantity","cost_price")
     def calc_Total(self):
         for request_line in self:
-            request_line.Total = request_line.Quantity * request_line.cost_price;
-            print('-------------------------------------------')
-            print(request_line.Total)
+            request_line.Total = request_line.Quantity * request_line.cost_price
 
 
 
