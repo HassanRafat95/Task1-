@@ -54,6 +54,5 @@ class PurchaseRequest(models.Model):
         return True
 
 
-
-
-
+    def print_report(self):
+        return self.env.ref("purchase_request.purchase_request_report").report_action(self)

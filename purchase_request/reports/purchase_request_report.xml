@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <report id="purchase_request_report"
+                string="purchase request report"
+                model="purchase.request"
+                report_type="qweb-pdf"
+                name="purchase_request.report_purchase_inherit_demo"
+                file="purchase_request.report_purchase_inherit_demo"/>
+    </data>
+</odoo>

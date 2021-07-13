@@ -1,0 +1,63 @@
+<odoo>
+    <data>
+        <template id="purchase_request_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                      <t t-call="web.internal_layout">
+                          <div class="page border  p-2">
+                          <h3 style="text-align: center;"> <span class="mx-auto" t-field="doc.RequestName"></span></h3>
+                          </div>
+                          <div class="row my-3" >
+                              <div class="col-6">
+                                  <p><b>partner Name:</b> <span t-field="doc.RequestedBy.name"/> </p>
+                                  <p><b>partner address:</b>
+                                      <span t-field="doc.RequestedBy.street"/> ,
+                                      <span t-field="doc.RequestedBy.city"/>  ,
+                                      <span t-field="doc.RequestedBy.state_id"/> ,
+                                      <span t-field="doc.RequestedBy.zip"/> ,
+                                      <span t-field="doc.RequestedBy.country_id"/>
+                                  </p>
+                              </div>
+                          </div>
+                          <div class="row" >
+                             <table class="table">
+                                 <caption>List of Request Products</caption>
+                                 <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">product Name</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Cost Price</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr t-foreach="doc.orderlines" t-as="line">
+                                        <th scope="row"><span t-esc="line_index + 1" /></th>
+                                         <td><span t-field="line.product_id"/></td>
+                                         <td><span t-field="line.Description"/></td>
+                                         <td><span t-field="line.Quantity"/></td>
+                                         <td><span t-field="line.cost_price"/></td>
+                                         <td><span t-field="line.Total"/></td>
+                                     </tr>
+                                 </tbody>
+                             </table>
+                          </div>
+
+                      </t>
+                </t>
+            </t>
+        </template>
+         <template id="report_purchase_inherit_demo" inherit_id="purchase_request.purchase_request_template">
+             <xpath expr="//div[3]" position="after">
+                 <div class="row" >
+                     <span>inherit report </span>
+                 </div>
+                 <div class="row" >
+                     <p><t t-esc="test"/></p>
+                 </div>
+	         </xpath>
+         </template>
+    </data>
+</odoo>

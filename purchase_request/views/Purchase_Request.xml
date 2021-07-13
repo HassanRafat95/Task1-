@@ -11,6 +11,8 @@
                           <button name="Approve" type="object" string="Approve" attrs="{'invisible':[('status', '!=' ,'to be approved')]}" />
                           <button name="%(purchase_request.wizard_reject_action)d" type="action" string="Reject" attrs="{'invisible':[('status', '!=' ,'to be approved')]}" />
                           <button name="Reset_to_draft" type="object" string="Reset to draft" attrs="{'invisible':[('status', '!=' ,'cancel')]}" />
+                          <button name="print_report" type="object" string="print report" class="oe_highlight" />
+
                           <field name="status"  widget="statusbar" clickable="False"/>
                       </header>
                     <sheet>

@@ -9,7 +9,8 @@
         'views/Purchase_Request_line.xml',
         'wizard/wizard_reject_view.xml',
         'data/request_template_mail.xml',
-
+        'reports/purchase_request_report.xml',
+        'reports/purchase_request_template_report.xml',
     ],
 
 
