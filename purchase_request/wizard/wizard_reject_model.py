@@ -8,7 +8,7 @@ class wizard_reject (models.TransientModel):
     def confirm(self):
         print(self.env['purchase.request'].browse(self.env.context.get('active_id')))
         self.env['purchase.request'].browse(self.env.context.get('active_id')).write({
-            'RejectionReason':self.rejection_reason,
+            'rejection_reason':self.rejection_reason,
             'status':'reject'
         });
         return True

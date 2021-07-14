@@ -5,17 +5,17 @@
                 <t t-foreach="docs" t-as="doc">
                       <t t-call="web.internal_layout">
                           <div class="page border  p-2">
-                          <h3 style="text-align: center;"> <span class="mx-auto" t-field="doc.RequestName"></span></h3>
+                          <h3 style="text-align: center;"> <span class="mx-auto" t-field="doc.name"></span></h3>
                           </div>
                           <div class="row my-3" >
                               <div class="col-6">
-                                  <p><b>partner Name:</b> <span t-field="doc.RequestedBy.name"/> </p>
+                                  <p><b>partner Name:</b> <span t-field="doc.requested_by.name"/> </p>
                                   <p><b>partner address:</b>
-                                      <span t-field="doc.RequestedBy.street"/> ,
-                                      <span t-field="doc.RequestedBy.city"/>  ,
-                                      <span t-field="doc.RequestedBy.state_id"/> ,
-                                      <span t-field="doc.RequestedBy.zip"/> ,
-                                      <span t-field="doc.RequestedBy.country_id"/>
+                                      <span t-field="doc.requested_by.street"/> ,
+                                      <span t-field="doc.requested_by.city"/>  ,
+                                      <span t-field="doc.requested_by.state_id"/> ,
+                                      <span t-field="doc.requested_by.zip"/> ,
+                                      <span t-field="doc.requested_by.country_id"/>
                                   </p>
                               </div>
                           </div>
@@ -33,13 +33,13 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                     <tr t-foreach="doc.orderlines" t-as="line">
+                                     <tr t-foreach="doc.order_line_ids" t-as="line">
                                         <th scope="row"><span t-esc="line_index + 1" /></th>
                                          <td><span t-field="line.product_id"/></td>
-                                         <td><span t-field="line.Description"/></td>
-                                         <td><span t-field="line.Quantity"/></td>
+                                         <td><span t-field="line.description"/></td>
+                                         <td><span t-field="line.quantity"/></td>
                                          <td><span t-field="line.cost_price"/></td>
-                                         <td><span t-field="line.Total"/></td>
+                                         <td><span t-field="line.total"/></td>
                                      </tr>
                                  </tbody>
                              </table>

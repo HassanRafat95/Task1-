@@ -5,31 +5,38 @@
             <field name="model">purchase.request</field>
             <field name="arch" type="xml">
                 <form>
-                      <header>
-                          <button name="Submit_for_Approval" type="object" string="Submit for Approval" attrs="{'invisible':[('status', '!=' ,'draft')]}"/>
-                          <button name="Cancel" type="object" string="Cancel" attrs="{'invisible':[('status', '!=' ,'draft')]}" />
-                          <button name="Approve" type="object" string="Approve" attrs="{'invisible':[('status', '!=' ,'to be approved')]}" />
-                          <button name="%(purchase_request.wizard_reject_action)d" type="action" string="Reject" attrs="{'invisible':[('status', '!=' ,'to be approved')]}" />
-                          <button name="Reset_to_draft" type="object" string="Reset to draft" attrs="{'invisible':[('status', '!=' ,'cancel')]}" />
-                          <button name="print_report" type="object" string="print report" class="oe_highlight" />
-                          <button name="create_order" type="object" string="create order" class="oe_highlight" attrs="{'invisible':[('status', '!=' ,'approve')]}" />
-                          <field name="status"  widget="statusbar" clickable="False"/>
-                      </header>
+                    <header>
+                        <button name="action_submit_for_approval" type="object" string="Submit for Approval" attrs="{'invisible':[('status', '!=' ,'draft')]}"/>
+                        <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible':[('status', '!=' ,'draft')]}" />
+                        <button name="action_approve" type="object" string="Approve" attrs="{'invisible':[('status', '!=' ,'to be approved')]}" />
+                        <button name="%(purchase_request.wizard_reject_action)d" type="action" string="Reject" attrs="{'invisible':[('status', '!=' ,'to be approved')]}" />
+                        <button name="action_reset_to_draft" type="object" string="Reset to draft" attrs="{'invisible':[('status', '!=' ,'cancel')]}" />
+                        <button name="action_print_report" type="object" string="print report" class="oe_highlight" />
+                        <button name="action_create_order" type="object" string="create order" class="oe_highlight" attrs="{'invisible':[('status', '!=' ,'approve')]}" />
+                        <field name="status"  widget="statusbar" clickable="False"/>
+                    </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object"  name="action_view_orders"
+                                    class="oe_stat_button" string="Orders"
+                                    icon="fa-pencil-square-o">
+                                <field name="purchase_orders_count"/>
+                            </button>
+                        </div>
                         <group>
                             <group >
-                               <field name="RequestName" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
-                               <field name="RequestedBy" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
-                               <field name="RejectionReason"  attrs="{'invisible':[('status', '!=' ,'reject')]}" />
+                                <field name="name" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
+                                <field name="requested_by" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
+                                <field name="rejection_reason"  attrs="{'invisible':[('status', '!=' ,'reject')]}" />
                             </group>
                             <group >
-                                <field name="StartDate" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
-                                <field name="EndDate"  attrs="{'readonly':[('status','not in',['draft','to be approved'])]}"/>
-                                <field name="TotalPrice"  attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" force_save="1"/>
+                                <field name="start_date" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
+                                <field name="end_date"  attrs="{'readonly':[('status','not in',['draft','to be approved'])]}"/>
+                                <field name="total_price"  attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" force_save="1"/>
                             </group>
                         </group>
                         <group>
-                            <field name="orderlines" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
+                            <field name="order_line_ids" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
                         </group>
                     </sheet>
                 </form>
@@ -40,46 +47,46 @@
             <field name="model">purchase.request</field>
             <field name="arch" type="xml">
                 <tree>
-                            <field name="RequestName" />
-                            <field name="RequestedBy" />
-                            <field name="StartDate" />
-                            <field name="EndDate" />
+                    <field name="name" />
+                    <field name="requested_by" />
+                    <field name="start_date" />
+                    <field name="end_date" />
                 </tree>
             </field>
         </record>
         <record  id="purchase_request_kanban_view" model="ir.ui.view">
-    <field name="name">kanban</field>
-    <field name="model">purchase.request</field>
-    <field name="type">kanban</field>
-    <field name="arch" type="xml">
-        <kanban>
-            <templates>
-                <t t-name="kanban-box">
-                    <div class="oe_resource_vignette">
-                        <h3><field name="RequestName"/></h3>
-                        <h3><field name="RequestedBy"/></h3>
-                        <div class="oe_resource_details">
-                            <ul>
-                                <li><field name="StartDate"/></li>
-                                <li><field name="EndDate"/> </li>
-                                <li><field name="TotalPrice"/> </li>
-                                <li><field name="status"/> </li>
-                             </ul>
-                        </div>
-                    </div>
-                </t>
-            </templates>
-        </kanban>
-    </field>
-</record>
- <record  id="purchase_request_pivot_view" model="ir.ui.view">
+            <field name="name">kanban</field>
+            <field name="model">purchase.request</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_resource_vignette">
+                                <h3><field name="name"/></h3>
+                                <h3><field name="requested_by"/></h3>
+                                <div class="oe_resource_details">
+                                    <ul>
+                                        <li><field name="start_date"/></li>
+                                        <li><field name="end_date"/> </li>
+                                        <li><field name="total_price"/> </li>
+                                        <li><field name="status"/> </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record  id="purchase_request_pivot_view" model="ir.ui.view">
             <field name="name">purchase request pivot view</field>
             <field name="model">purchase.request</field>
             <field name="arch" type="xml">
                 <pivot string="Purchase request" display_quantity="True" sample="1">
-                    <field name="RequestedBy" type="row"/>
+                    <field name="requested_by" type="row"/>
                     <field name="id" type="row"/>
-                    <field name="TotalPrice" type="measure"/>
+                    <field name="total_price" type="measure"/>
                 </pivot>
             </field>
         </record>
