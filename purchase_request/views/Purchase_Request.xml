@@ -12,7 +12,7 @@
                           <button name="%(purchase_request.wizard_reject_action)d" type="action" string="Reject" attrs="{'invisible':[('status', '!=' ,'to be approved')]}" />
                           <button name="Reset_to_draft" type="object" string="Reset to draft" attrs="{'invisible':[('status', '!=' ,'cancel')]}" />
                           <button name="print_report" type="object" string="print report" class="oe_highlight" />
-
+                          <button name="create_order" type="object" string="create order" class="oe_highlight" attrs="{'invisible':[('status', '!=' ,'approve')]}" />
                           <field name="status"  widget="statusbar" clickable="False"/>
                       </header>
                     <sheet>
@@ -35,7 +35,7 @@
                 </form>
             </field>
         </record>
-   <record id="purchase_request_tree_view" model="ir.ui.view">
+        <record id="purchase_request_tree_view" model="ir.ui.view">
             <field name="name">purchase request tree</field>
             <field name="model">purchase.request</field>
             <field name="arch" type="xml">
@@ -47,14 +47,49 @@
                 </tree>
             </field>
         </record>
-
+        <record  id="purchase_request_kanban_view" model="ir.ui.view">
+    <field name="name">kanban</field>
+    <field name="model">purchase.request</field>
+    <field name="type">kanban</field>
+    <field name="arch" type="xml">
+        <kanban>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_resource_vignette">
+                        <h3><field name="RequestName"/></h3>
+                        <h3><field name="RequestedBy"/></h3>
+                        <div class="oe_resource_details">
+                            <ul>
+                                <li><field name="StartDate"/></li>
+                                <li><field name="EndDate"/> </li>
+                                <li><field name="TotalPrice"/> </li>
+                                <li><field name="status"/> </li>
+                             </ul>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+ <record  id="purchase_request_pivot_view" model="ir.ui.view">
+            <field name="name">purchase request pivot view</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <pivot string="Purchase request" display_quantity="True" sample="1">
+                    <field name="RequestedBy" type="row"/>
+                    <field name="id" type="row"/>
+                    <field name="TotalPrice" type="measure"/>
+                </pivot>
+            </field>
+        </record>
 
 
 
         <record id="Purchase_Request_action" model="ir.actions.act_window">
             <field name="name">Purchase Request</field>
             <field name="res_model">purchase.request</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,kanban,pivot</field>
         </record>
 
         <menuitem id="menu_procurement_management_Request" name="Purchase Request"  parent="purchase.menu_procurement_management" action="Purchase_Request_action"/>

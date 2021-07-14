@@ -40,12 +40,12 @@ class PurchaseRequest(models.Model):
     def Approve(self):
         for record in self:
             record.status = "approve"
-            tempelate_id = self.env.ref('purchase_request.request_template_mail');
-            if tempelate_id:
-                group_user = self.env.ref('purchase.group_purchase_manager').users
-                for user_d in group_user:
-                    tempelate_id.send_mail(self.id, force_send=True, raise_exception=True,
-                                       email_values={'email_to': user_d.email})
+            #tempelate_id = self.env.ref('purchase_request.request_template_mail');
+            #if tempelate_id:
+                #group_user = self.env.ref('purchase.group_purchase_manager').users
+                #for user_d in group_user:
+                   # tempelate_id.send_mail(self.id, force_send=True, raise_exception=True,
+                   #                    email_values={'email_to': user_d.email})
         return True
 
     def Reset_to_draft(self):
@@ -56,3 +56,12 @@ class PurchaseRequest(models.Model):
 
     def print_report(self):
         return self.env.ref("purchase_request.purchase_request_report").report_action(self)
+
+    def create_order(self):
+        for record in self:
+            purchase_order = self.env['purchase.order'].create({'name':record.RequestName,'partner_id':record.RequestedBy.id,'invoice_status':'no'})
+            for order_line in record.orderlines:
+                self.env['purchase.order.line'].create({'order_id':purchase_order.id,'name':order_line.Description,
+                    'product_qty':order_line.Quantity,'product_id':order_line.product_id.id,
+                                                            'price_unit':order_line.cost_price})
+        return True
