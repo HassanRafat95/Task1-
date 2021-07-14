@@ -20,7 +20,7 @@ class PurchaseRequest(models.Model):
         ('cancel', 'Cancel'),
     ]
     ,string="status",default="draft")
-    purchase_orders_count = fields.Char(compute="_compute_order_count")
+    purchase_orders_count = fields.Integer(compute="_compute_order_count")
 
 
     @api.depends("order_line_ids.total")

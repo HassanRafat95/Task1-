@@ -12,14 +12,14 @@
                         <button name="%(purchase_request.wizard_reject_action)d" type="action" string="Reject" attrs="{'invisible':[('status', '!=' ,'to be approved')]}" />
                         <button name="action_reset_to_draft" type="object" string="Reset to draft" attrs="{'invisible':[('status', '!=' ,'cancel')]}" />
                         <button name="action_print_report" type="object" string="print report" class="oe_highlight" />
-                        <button name="action_create_order" type="object" string="create order" class="oe_highlight" attrs="{'invisible':[('status', '!=' ,'approve')]}" />
+                        <button name="action_create_order" type="object" string="create order" class="oe_highlight" state="approve" attrs="{'invisible':[('purchase_orders_count', '>=' ,2)]}" />
                         <field name="status"  widget="statusbar" clickable="False"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button type="object"  name="action_view_orders"
                                     class="oe_stat_button" string="Orders"
-                                    icon="fa-pencil-square-o">
+                                    icon="fa-pencil-square-o" >
                                 <field name="purchase_orders_count"/>
                             </button>
                         </div>
