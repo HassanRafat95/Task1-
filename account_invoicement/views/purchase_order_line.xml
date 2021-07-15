@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="purchase_order_line_tree_inherit" model="ir.ui.view" >
+            <field name="name">purchase.order.line.tree</field>
+            <field name="model">purchase.order.line</field>
+            <field name="inherit_id" ref="purchase.purchase_order_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_qty']" position="after">
+                    <field name="sub_total_after_discount" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
