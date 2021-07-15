@@ -12,7 +12,7 @@
                         <button name="%(purchase_request.wizard_reject_action)d" type="action" string="Reject" attrs="{'invisible':[('status', '!=' ,'to be approved')]}" />
                         <button name="action_reset_to_draft" type="object" string="Reset to draft" attrs="{'invisible':[('status', '!=' ,'cancel')]}" />
                         <button name="action_print_report" type="object" string="print report" class="oe_highlight" />
-                        <button name="action_create_order" type="object" string="create order" class="oe_highlight" state="approve" attrs="{'invisible':[('purchase_orders_count', '>=' ,2)]}" />
+                        <button name="action_create_order" type="object" string="create order" class="oe_highlight" attrs="{'invisible':['|',('purchase_orders_count','>=',2),('status', '!=' ,'approve')]}"/>
                         <field name="status"  widget="statusbar" clickable="False"/>
                     </header>
                     <sheet>
@@ -27,6 +27,7 @@
                             <group >
                                 <field name="name" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
                                 <field name="requested_by" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
+                                <field name="company_id" attrs="{'readonly':[('status','not in',['draft','to be approved'])]}" />
                                 <field name="rejection_reason"  attrs="{'invisible':[('status', '!=' ,'reject')]}" />
                             </group>
                             <group >
@@ -89,6 +90,19 @@
                     <field name="total_price" type="measure"/>
                 </pivot>
             </field>
+        </record>
+        <record  id="purchase_request_search_view" model="ir.ui.view">
+            <field name="name">purchase request search view</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" />
+                    <filter string="Active user requests" name="request_for_current_user" domain="[('requested_by','=', uid)]"/>
+                    <filter string="company" name="groupby_company_id" context="{'group_by': 'company_id'}"/>
+                    <filter string="requested by" name="groupby_requested_by" context="{'group_by': 'requested_by'}"/>
+                </search>
+            </field>
+
         </record>
 
 

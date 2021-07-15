@@ -5,7 +5,7 @@ from odoo.exceptions import UserError
 class PurchaseRequest(models.Model):
     _name = "purchase.request"
 
-    name = fields.Char(string="Request Name", required=True)
+    name = fields.Char(string="Name", required=True , default=lambda self: self.env['ir.sequence'].next_by_code('purchase.request'))
     requested_by = fields.Many2one("res.users",required=True,default=lambda self: self.env.user)
     start_date = fields.Date('Start Date', default=fields.Date.today())
     end_date = fields.Date('End Date')
@@ -19,9 +19,10 @@ class PurchaseRequest(models.Model):
         ('reject','Reject'),
         ('cancel', 'Cancel'),
     ]
-    ,string="status",default="draft")
+        ,string="status",default="draft")
+    company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self.env.company.id)
     purchase_orders_count = fields.Integer(compute="_compute_order_count")
-
+    purchase_order_ids = fields.One2many("purchase.order", "purchase_request_id")
 
     @api.depends("order_line_ids.total")
     def _compute_total(self):
@@ -51,10 +52,10 @@ class PurchaseRequest(models.Model):
             record.status = "approve"
             #tempelate_id = self.env.ref('purchase_request.request_template_mail');
             #if tempelate_id:
-                #group_user = self.env.ref('purchase.group_purchase_manager').users
-                #for user_d in group_user:
-                   # tempelate_id.send_mail(self.id, force_send=True, raise_exception=True,
-                   #                    email_values={'email_to': user_d.email})
+            #group_user = self.env.ref('purchase.group_purchase_manager').users
+            #for user_d in group_user:
+            # tempelate_id.send_mail(self.id, force_send=True, raise_exception=True,
+            #                    email_values={'email_to': user_d.email})
         return True
 
     def action_reset_to_draft(self):
@@ -89,9 +90,9 @@ class PurchaseRequest(models.Model):
 
     def action_view_orders(self):
         return {
-                'type': 'ir.actions.act_window',
-                'name': _('orders'),
-                'res_model': 'purchase.order',
-                'view_mode': 'tree,form',
-                'domain': [('purchase_request_id', '=', self.id)],
+            'type': 'ir.actions.act_window',
+            'name': _('orders'),
+            'res_model': 'purchase.order',
+            'view_mode': 'tree,form',
+            'domain': [('purchase_request_id', '=', self.id)],
         }

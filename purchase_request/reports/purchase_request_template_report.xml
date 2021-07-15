@@ -3,26 +3,26 @@
         <template id="purchase_request_template">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
-                      <t t-call="web.internal_layout">
-                          <div class="page border  p-2">
-                          <h3 style="text-align: center;"> <span class="mx-auto" t-field="doc.name"></span></h3>
-                          </div>
-                          <div class="row my-3" >
-                              <div class="col-6">
-                                  <p><b>partner Name:</b> <span t-field="doc.requested_by.name"/> </p>
-                                  <p><b>partner address:</b>
-                                      <span t-field="doc.requested_by.street"/> ,
-                                      <span t-field="doc.requested_by.city"/>  ,
-                                      <span t-field="doc.requested_by.state_id"/> ,
-                                      <span t-field="doc.requested_by.zip"/> ,
-                                      <span t-field="doc.requested_by.country_id"/>
-                                  </p>
-                              </div>
-                          </div>
-                          <div class="row" >
-                             <table class="table">
-                                 <caption>List of Request Products</caption>
-                                 <thead>
+                    <t t-call="web.internal_layout">
+                        <div class="page border  p-2">
+                            <h3 style="text-align: center;"> <span class="mx-auto" t-field="doc.name"></span></h3>
+                        </div>
+                        <div class="row my-3" >
+                            <div class="col-6">
+                                <p><b>partner Name:</b> <span t-field="doc.requested_by.name"/> </p>
+                                <p><b>partner address:</b>
+                                    <span t-field="doc.requested_by.street"/> ,
+                                    <span t-field="doc.requested_by.city"/>  ,
+                                    <span t-field="doc.requested_by.state_id"/> ,
+                                    <span t-field="doc.requested_by.zip"/> ,
+                                    <span t-field="doc.requested_by.country_id"/>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row" >
+                            <table class="table">
+                                <caption>List of Request Products</caption>
+                                <thead>
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">product Name</th>
@@ -31,33 +31,33 @@
                                         <th scope="col">Cost Price</th>
                                         <th scope="col">Total</th>
                                     </tr>
-                                 </thead>
-                                 <tbody>
-                                     <tr t-foreach="doc.order_line_ids" t-as="line">
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.order_line_ids" t-as="line">
                                         <th scope="row"><span t-esc="line_index + 1" /></th>
-                                         <td><span t-field="line.product_id"/></td>
-                                         <td><span t-field="line.description"/></td>
-                                         <td><span t-field="line.quantity"/></td>
-                                         <td><span t-field="line.cost_price"/></td>
-                                         <td><span t-field="line.total"/></td>
-                                     </tr>
-                                 </tbody>
-                             </table>
-                          </div>
+                                        <td><span t-field="line.product_id"/></td>
+                                        <td><span t-field="line.description"/></td>
+                                        <td><span t-field="line.quantity"/></td>
+                                        <td><span t-field="line.cost_price"/></td>
+                                        <td><span t-field="line.total"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                      </t>
+                    </t>
                 </t>
             </t>
         </template>
-         <template id="report_purchase_inherit_demo" inherit_id="purchase_request.purchase_request_template">
-             <xpath expr="//div[3]" position="after">
-                 <div class="row" >
-                     <span>inherit report </span>
-                 </div>
-                 <div class="row" >
-                     <p><t t-esc="test"/></p>
-                 </div>
-	         </xpath>
-         </template>
+        <template id="report_purchase_inherit_demo" inherit_id="purchase_request.purchase_request_template">
+            <xpath expr="//div[3]" position="after">
+                <div class="row" >
+                    <span>inherit report </span>
+                </div>
+                <div class="row" >
+                    <p><t t-esc="test"/></p>
+                </div>
+            </xpath>
+        </template>
     </data>
 </odoo>
