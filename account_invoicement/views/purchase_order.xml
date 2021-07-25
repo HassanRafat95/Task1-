@@ -4,14 +4,14 @@
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='partner_id']" position="after">
-                    <field name="discount"/>
+                <xpath expr="//field[@name='amount_untaxed']" position="replace">
+                    <field name="primary_total"/>
                 </xpath>
-                <xpath expr="//field[@name='amount_total']" position="after">
-                    <field name="total_after_discount"/>
+                 <xpath expr="//field[@name='amount_tax']" position="after">
+                    <field name="total_discount"/>
                 </xpath>
                  <xpath expr="//field[@name='taxes_id']" position="after">
-                    <field name="sub_total_after_discount" />
+                    <field name="discount" />
                 </xpath>
             </field>
         </record>

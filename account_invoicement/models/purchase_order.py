@@ -3,23 +3,14 @@ from odoo.exceptions import UserError
 
 class PurchaseOrder(models.Model):
     _inherit = ['purchase.order']
-    discount = fields.Float(default=0)
-    total_after_discount = fields.Float(compute="_compute_total")
+    total_discount = fields.Float(compute="_compute_discount")
+    primary_total = fields.Float(compute="_compute_total")
 
-    @api.onchange("discount")
-    def _check_discount(self):
-        for record in self:
-            if record.discount < 0:
-                record.discount = 0
-            else:
-                if record.discount > 100:
-                    record.discount = 100
-
-
-    @api.depends("order_line.sub_total_after_discount")
+    @api.depends("order_line.product_qty","order_line.price_unit","order_line.discount")
     def _compute_total(self):
         for record in self:
-            record.total_after_discount = sum(l.sub_total_after_discount for l in record.order_line)
+            record.primary_total = sum((l.product_qty * l.price_unit)for l in record.order_line)
+            record.total_discount = sum((l.product_qty * l.price_unit * (l.discount /100 ))for l in record.order_line)
 
 
 
