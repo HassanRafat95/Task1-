@@ -33,3 +33,7 @@ class PurchaseOrderLine(models.Model):
 
 
 
+    def _prepare_account_move_line(self, move=False):
+        res = super(PurchaseOrderLine,self)._prepare_account_move_line()
+        res['discount'] = self.discount
+        return res
