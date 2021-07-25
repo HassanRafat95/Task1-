@@ -7,8 +7,11 @@
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="discount"/>
                 </xpath>
-                <xpath expr="//field[@name='amount_tax']" position="after">
+                <xpath expr="//field[@name='amount_total']" position="after">
                     <field name="total_after_discount"/>
+                </xpath>
+                 <xpath expr="//field[@name='taxes_id']" position="after">
+                    <field name="sub_total_after_discount" />
                 </xpath>
             </field>
         </record>
