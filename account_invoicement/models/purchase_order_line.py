@@ -36,4 +36,19 @@ class PurchaseOrderLine(models.Model):
     def _prepare_account_move_line(self, move=False):
         res = super(PurchaseOrderLine,self)._prepare_account_move_line()
         res['discount'] = self.discount
+        res['analytic_account_id'] = self.order_id.picking_type_id.analytic_account_id
+        print(res)
         return res
+
+    def _prepare_purchase_order_line(self, product_id, product_qty, product_uom, company_id, supplier, po):
+        values = super(PurchaseOrderLine, self)._prepare_purchase_order_line(product_id, product_qty, product_uom, company_id, supplier, po)
+        values['account_analytic_id'] = po.picking_type_id.analytic_account_id
+        print(values)
+        return values
+
+
+    def _prepare_stock_move_vals(self, picking, price_unit, product_uom_qty, product_uom):
+        res = super(PurchaseOrderLine, self)._prepare_stock_move_vals(picking, price_unit, product_uom_qty, product_uom)
+        res['analytic_account_id'] = self.order_id.picking_type_id.analytic_account_id
+        return res
+
