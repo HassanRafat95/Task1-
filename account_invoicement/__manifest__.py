@@ -4,11 +4,8 @@
     "summary":"this module update purchase",
     "depends":['purchase'],
     "data":
-    [
-        "security/ir.model.access.csv",
-        "views/purchase_order.xml",
-
-    ],
-
-
+        [
+            "security/ir.model.access.csv",
+            "views/purchase_order.xml",
+        ],
 }

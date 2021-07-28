@@ -37,7 +37,6 @@ class PurchaseOrderLine(models.Model):
         res = super(PurchaseOrderLine,self)._prepare_account_move_line()
         res['discount'] = self.discount
         res['analytic_account_id'] = self.order_id.picking_type_id.analytic_account_id
-        print(res)
         return res
 
     def _prepare_purchase_order_line(self, product_id, product_qty, product_uom, company_id, supplier, po):
