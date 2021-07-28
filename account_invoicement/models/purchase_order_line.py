@@ -36,18 +36,20 @@ class PurchaseOrderLine(models.Model):
     def _prepare_account_move_line(self, move=False):
         res = super(PurchaseOrderLine,self)._prepare_account_move_line()
         res['discount'] = self.discount
-        res['analytic_account_id'] = self.order_id.picking_type_id.analytic_account_id
+        if self.order_id.picking_type_id.analytic_account_id:
+            res['analytic_account_id'] = self.order_id.picking_type_id.analytic_account_id.id
         return res
 
-    def _prepare_purchase_order_line(self, product_id, product_qty, product_uom, company_id, supplier, po):
-        values = super(PurchaseOrderLine, self)._prepare_purchase_order_line(product_id, product_qty, product_uom, company_id, supplier, po)
-        values['account_analytic_id'] = po.picking_type_id.analytic_account_id
-        print(values)
-        return values
+    @api.depends('product_id', 'date_order')
+    def _compute_analytic_id_and_tag_ids(self):
+        for rec in self:
+            super(PurchaseOrderLine,rec)._compute_analytic_id_and_tag_ids()
+            rec.account_analytic_id = rec.order_id.picking_type_id.analytic_account_id
 
 
     def _prepare_stock_move_vals(self, picking, price_unit, product_uom_qty, product_uom):
         res = super(PurchaseOrderLine, self)._prepare_stock_move_vals(picking, price_unit, product_uom_qty, product_uom)
-        res['analytic_account_id'] = self.order_id.picking_type_id.analytic_account_id
+        if self.order_id.picking_type_id.analytic_account_id:
+            res['analytic_account_id'] = self.order_id.picking_type_id.analytic_account_id.id
         return res
 

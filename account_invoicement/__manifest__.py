@@ -7,5 +7,7 @@
         [
             "security/ir.model.access.csv",
             "views/purchase_order.xml",
+            "views/product_category.xml",
+            "views/product_template.xml"
         ],
 }
