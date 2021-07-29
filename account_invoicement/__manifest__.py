@@ -10,8 +10,9 @@
             "views/purchase_order.xml",
             "views/product_category.xml",
             "views/product_template.xml",
-            "views/partner_invoice.xml",
-            "views/corn_demo_view.xml"
+            "views/res_partner.xml",
+            "data/cron_total_invoice.xml",
+            "data/call_cron_functions.xml",
 
         ],
 }

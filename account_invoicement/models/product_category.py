@@ -1,4 +1,5 @@
-from odoo import api, fields, models
+from odoo import fields, models
+
 
 class ProductCategory(models.Model):
     _inherit = "product.category"
@@ -18,6 +19,3 @@ class ProductCategory(models.Model):
                     code = category.code
                 return code
         return code
-
-
-

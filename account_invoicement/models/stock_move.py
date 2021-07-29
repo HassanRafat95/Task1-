@@ -1,4 +1,4 @@
-from odoo import fields, models,api, _
+from odoo import fields, models
 
 
 class StockMove(models.Model):
@@ -12,9 +12,11 @@ class StockMove(models.Model):
             order = line.order_id
             price_unit = line.price_unit
             if line.discount:
-                price_unit = price_unit * ((100-line.discount) / 100)
+                price_unit = price_unit * ((100 - line.discount) / 100)
             if line.taxes_id:
-                price_unit = line.taxes_id.with_context(round=False).compute_all(price_unit, currency=line.order_id.currency_id, quantity=1.0)['total_void']
+                price_unit = \
+                line.taxes_id.with_context(round=False).compute_all(price_unit, currency=line.order_id.currency_id,
+                                                                    quantity=1.0)['total_void']
             if line.product_uom.id != line.product_id.uom_id.id:
                 price_unit *= line.product_uom.factor / line.product_id.uom_id.factor
             if order.currency_id != order.company_id.currency_id:
@@ -23,6 +25,7 @@ class StockMove(models.Model):
                 # done, then date of actual move processing. See:
                 # https://github.com/odoo/odoo/blob/2f789b6863407e63f90b3a2d4cc3be09815f7002/addons/stock/models/stock_move.py#L36
                 price_unit = order.currency_id._convert(
-                    price_unit, order.company_id.currency_id, order.company_id, fields.Date.context_today(self), round=False)
+                    price_unit, order.company_id.currency_id, order.company_id, fields.Date.context_today(self),
+                    round=False)
             return price_unit
         return super(StockMove, self)._get_price_unit()

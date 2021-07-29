@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <function
+                model="cron"
+                name="print_invoices_total"
+        />
+        <function
+                model="cron"
+                name="print_thank_you">
+            <value>Dalia</value>
+        </function>
+    </data>
+</odoo>
