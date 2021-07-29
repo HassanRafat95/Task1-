@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="res_partner_form_inherit" model="ir.ui.view" >
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='vat']" position="after">
+                    <br></br>
+                     <group>
+                       <field name="invoices_total" readonly="1" groups="account_invoicement.partner_invoice_total"/>
+                     </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

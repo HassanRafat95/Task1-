@@ -1,0 +1,5 @@
+<odoo>
+        <record id="partner_invoice_total" model="res.groups">
+            <field name="name">Partner Invoice Total</field>
+        </record>
+</odoo>
