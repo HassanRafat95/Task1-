@@ -29,7 +29,7 @@ class CornClass(models.Model):
 
     @api.model
     def print_thank_you(self,name):
-        print("thank you  %s " % (name))
+        print("thank you Eng : %s " % (name))
 
 
 
