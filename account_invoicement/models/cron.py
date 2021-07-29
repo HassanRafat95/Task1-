@@ -1,5 +1,5 @@
-from odoo import models,api,fields
-import random
+from odoo import models, api, fields
+
 
 class CornClass(models.Model):
     _name = 'cron'
@@ -25,11 +25,8 @@ class CornClass(models.Model):
     @api.model
     def print_invoices_total(self):
         for partner in self.env['res.partner'].search([]):
-            print("Partner Name = %s  - Total Invoice  %s" % (partner.name,partner.invoices_total))
+            print("Partner Name = %s  - Total Invoice  %s" % (partner.name, partner.invoices_total))
 
     @api.model
-    def print_thank_you(self,name):
+    def print_thank_you(self, name):
         print("thank you Eng : %s " % (name))
-
-
-
