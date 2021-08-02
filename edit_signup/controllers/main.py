@@ -50,7 +50,7 @@ class AuthSignupHome(auth_signup.controllers.main.AuthSignupHome):
 
     def do_signup(self, qcontext):
         """ Shared helper that creates a res.partner out of a token """
-        values = {key: qcontext.get(key) for key in ('login', 'name', 'password', 'country_id', 'city')}
+        values = {key: qcontext.get(key) for key in ('login', 'name', 'password', 'country_id', 'city','date_of_birth','is_mature')}
         values['country_id'] = int(values['country_id'])
         print(values)
 
@@ -58,6 +58,8 @@ class AuthSignupHome(auth_signup.controllers.main.AuthSignupHome):
             raise UserError(_("The form was not properly filled in."))
         if values.get('password') != qcontext.get('confirm_password'):
             raise UserError(_("Passwords do not match; please retype them."))
+        if not values.get('is_mature'):
+            raise UserError(_("Age must be over 18"))
         supported_lang_codes = [code for code, _ in request.env['res.lang'].get_installed()]
         lang = request.context.get('lang', '').split('_')[0]
         if lang in supported_lang_codes:

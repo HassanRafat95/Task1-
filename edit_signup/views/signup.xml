@@ -1,0 +1,46 @@
+<odoo>
+
+    <template id="signup_fields" inherit_id="auth_signup.fields" name="Auth Signup Ext form fields">
+    <xpath expr="//div[@class='form-group field-name']" position="after">
+        <t t-call-assets="edit_signup.assets_frontend" t-js="false"/>
+        <div class="form-group field-country">
+
+            <label class="control-label" for="country_id">Country</label>
+
+            <select name="country_id" id="country_id" class="form-control">
+
+                <option value="">Country...</option>
+
+                <t t-foreach="countries or []" t-as="country">
+
+                    <option t-att-value="country.id" ><t t-esc="country.name"/></option>
+
+                </t>
+
+            </select>
+
+        </div>
+
+        <div class="form-group field-city">
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" class="form-control form-control-sm"  />
+        </div>
+
+
+        <div class="form-group field-date_of_birth">
+            <label for="date_of_birth">Date of Birth</label>
+            <input type="date" name="date_of_birth" id="date_of_birth" required="required" class="form-control form-control-sm"/>
+        </div>
+
+        <div class="form-group field-is_mature">
+            <input type="checkbox" id="is_mature"  name="is_mature" checked="!checked" onclick="this.checked=!this.checked;" />
+            <label  for="is_mature">
+                is_mature
+            </label>
+        </div>
+
+
+
+    </xpath>
+</template>
+</odoo>

@@ -6,7 +6,9 @@
     "data":
         [
             "security/ir.model.access.csv",
-            "views/signup_view.xml"
-
+            "views/edit_signup_assets.xml",
+            "views/signup.xml",
+            "views/res_partner.xml"
         ],
+
 }
