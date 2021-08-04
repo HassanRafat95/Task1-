@@ -51,4 +51,7 @@ class SaleOrderLine(models.Model):
         result = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
         if self.order_id.partner_id.allowed_discount > 0 and self.product_id.id == self.order_id.discount_product_id.id:
             result['account_id'] = self.order_id.discount_account_id.id
+            result['discount'] = self.order_id.partner_id.allowed_discount
+            result['price_unit'] = self.price_unit + self.order_id.partner_id.allowed_discount
+            print(result)
         return result
