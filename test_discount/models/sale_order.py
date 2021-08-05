@@ -12,22 +12,11 @@ class SaleOrder(models.Model):
         for rec in self:
             if rec.name != 'New':
                 if rec.partner_id.allowed_discount > 0:
-                    check_product = False
                     for line in rec.order_line:
-                        if line.product_id == rec.discount_product_id.id:
-                            check_product = True
-                            if line.price_unit != (
-                                    rec.discount_product_id.list_price - rec.partner_id.allowed_discount):
+                        if line.product_id.id == rec.discount_product_id.id:
+                            if line.price_unit != (rec.discount_product_id.list_price - rec.partner_id.allowed_discount):
                                 line.price_unit = rec.discount_product_id.list_price - rec.partner_id.allowed_discount
 
-                    if not check_product:
-                        vals = {
-                            'product_id': rec.discount_product_id.id,
-                            'price_unit': rec.discount_product_id.list_price - rec.partner_id.allowed_discount,
-                            'product_uom_qty': 1,
-                            'order_id': rec.id
-                        }
-                        order_line = self.env['sale.order.line'].create(vals)
 
     @api.model
     def create(self, vals):
@@ -42,6 +31,28 @@ class SaleOrder(models.Model):
             order_line = self.env['sale.order.line'].create(line_vals)
         return result
 
+    def write(self, vals):
+        for rec in self:
+            result = super(SaleOrder, rec).write(vals)
+            print(result)
+            if 'partner_id' in vals:
+                print(rec)
+                print(rec.partner_id)
+                if rec.partner_id.allowed_discount > 0:
+                    check_product = False
+                    for line in rec.order_line:
+                        if line.product_id.id == rec.discount_product_id.id:
+                            check_product = True
+
+                    if not check_product:
+                        line_vals = {
+                            'product_id': rec.discount_product_id.id,
+                            'price_unit': rec.discount_product_id.list_price - rec.partner_id.allowed_discount,
+                            'product_uom_qty': 1,
+                            'order_id': rec.id
+                        }
+                        order_line = self.env['sale.order.line'].create(line_vals)
+            return result
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
@@ -51,7 +62,5 @@ class SaleOrderLine(models.Model):
         result = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
         if self.order_id.partner_id.allowed_discount > 0 and self.product_id.id == self.order_id.discount_product_id.id:
             result['account_id'] = self.order_id.discount_account_id.id
-            result['discount'] = self.order_id.partner_id.allowed_discount
-            result['price_unit'] = self.price_unit + self.order_id.partner_id.allowed_discount
-            print(result)
         return result
+
